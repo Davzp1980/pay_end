@@ -51,6 +51,7 @@ func Test_CreateAdmin(t *testing.T) {
 				name:     "",
 				password: "password",
 			},
+
 			wantErr: true,
 		},
 	}
@@ -61,6 +62,7 @@ func Test_CreateAdmin(t *testing.T) {
 			got, err := CreateAdmin(db, tt.input.name, tt.input.password)
 			if tt.wantErr {
 				assert.Error(t, err)
+
 			} else {
 				assert.NoError(t, err)
 				assert.Equal(t, tt.want, got)

@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"pay/internal"
@@ -21,9 +22,10 @@ func CreateAdmin(db *sql.DB) http.HandlerFunc {
 
 		response, err := repository.CreateAdmin(db, input.Name, hashedPassword)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
-		w.WriteHeader(http.StatusOK)
+
 		json.NewEncoder(w).Encode(response)
 
 	}
@@ -39,9 +41,10 @@ func CreateUser(db *sql.DB) http.HandlerFunc {
 		hashedPassword, _ := HashePassword(input.Password)
 		response, err := repository.CreateUser(db, input.Name, hashedPassword)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
-		w.WriteHeader(http.StatusOK)
+
 		json.NewEncoder(w).Encode(response)
 
 	}
@@ -56,9 +59,10 @@ func BlockUser(db *sql.DB) http.HandlerFunc {
 
 		response, err := repository.BlockUser(db, input.Name)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
-		w.WriteHeader(http.StatusOK)
+
 		json.NewEncoder(w).Encode(response)
 
 	}
@@ -73,9 +77,10 @@ func UnBlockUser(db *sql.DB) http.HandlerFunc {
 
 		response, err := repository.UnBlockUser(db, input.Name)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
-		w.WriteHeader(http.StatusOK)
+
 		json.NewEncoder(w).Encode(response)
 
 	}
@@ -92,6 +97,7 @@ func ChangeUserPassword(db *sql.DB) http.HandlerFunc {
 
 		response, err := repository.ChangeUserPassword(db, input.Name, hashedPassword)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
 		w.WriteHeader(http.StatusOK)

@@ -12,16 +12,27 @@ import (
 
 func CreateAdmin(db *sql.DB, name, hashedPassword string) (string, error) {
 	isAdmin := true
-	_, err := db.Query("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3)", name, hashedPassword, isAdmin)
+	var user internal.User
+
+	err := db.QueryRow("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3) Returning id", name, hashedPassword, isAdmin).Scan(&user.Name)
+	if name == "" {
+		return "", errors.New("invalid user's name")
+	}
 	if err != nil {
+
 		return "", fmt.Errorf("user %s already exists", name)
 
 	}
-	return fmt.Sprintf("Admin %s created", name), nil
+	return fmt.Sprintf("Admin %s created", user.Name), nil
 }
 
 func CreateUser(db *sql.DB, name, hashedPassword string) (string, error) {
 	isAdmin := false
+
+	if name == "" {
+		return "", errors.New("invalid user's name")
+	}
+
 	_, err := db.Query("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3)", name, hashedPassword, isAdmin)
 	if err != nil {
 		return "", fmt.Errorf("user %s already exists", name)

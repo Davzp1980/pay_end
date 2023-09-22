@@ -1,5 +1,5 @@
 # use official Golang image
-FROM golang:1.16.3-alpine3.13
+FROM golang:1.21
 
 # set working directory
 WORKDIR /app
@@ -11,10 +11,10 @@ COPY . .
 RUN go get -d -v ./...
 
 # Build the Go app
-RUN go build -o api ./cmd/main.go 
+RUN go build -o pay ./cmd/main.go 
 
 #EXPOSE the port
 EXPOSE 8000
 
 # Run the executable
-CMD ["./api"]
+CMD ["./pay"]

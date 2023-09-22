@@ -55,6 +55,7 @@ func SignIn(db *sql.DB) http.HandlerFunc {
 			Expires: expirationTime,
 		})
 
+		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(fmt.Sprintf("Welcome %s", userName)))
 
 	}
